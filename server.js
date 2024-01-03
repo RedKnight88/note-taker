@@ -8,6 +8,9 @@ const PORT = process.env.PORT || 3001;
 
 const app = express();
 
+// Middleware for parsing JSON
+app.use(express.json());
+// Middleware to serve up static assets from the public folder
 app.use(express.static('public'));
 
 // Send all the requests that begin with /api to the index.js in the routes folder
