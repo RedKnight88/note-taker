@@ -13,7 +13,6 @@ notes.post('/', (req,res) => {
         text: req.body.text,
         id: uuid(),
     }
-    console.log(newObject);
     notesObject.push(newObject);
     let newNotesList = JSON.stringify(notesObject, null, 4);
     const response = {
@@ -26,6 +25,18 @@ notes.post('/', (req,res) => {
     });
 });
 
-// lookup docu on delete functionality
+notes.delete('/:id', (req,res) => {
+    for (let i=0; i < notesObject.length; i++) {
+        const currentNote = notesObject[i];
+        if (currentNote.id == req.params.id) {
+            notesObject.splice(i,1);
+            fs.writeFile('./db/db.json', JSON.stringify(notesObject, null, 4), (err) => {
+                err ? console.error(err) : console.info(`\nDeleted Entry`)
+            });
+            res.end();
+            return;
+        }
+    }
+});
 
 module.exports = notes;
